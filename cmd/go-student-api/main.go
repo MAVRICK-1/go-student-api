@@ -12,6 +12,7 @@ import (
 	"time"      // Import "time" for working with time
 
 	"github.com/mavrick-1/go-student-api/pkg/config" // Import the configuration package from the local module
+	"github.com/mavrick-1/go-student-api/pkg/http/handlers/student"
 )
 
 func main() {
@@ -24,9 +25,7 @@ func main() {
 
 	// Define the root route ("/") and its handler function
 	// The handler function responds to HTTP requests with "Hello, students"
-	router.HandleFunc("GET /", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprint(w, "Hello, students") // Write the response "Hello, students" to the ResponseWriter
-	})
+	router.HandleFunc("POST /api/students",student.New()) // Register the student handler for the "/api/students" route using the POST method parameter are route and handler
 
 	slog.Info("Starting server on", slog.String("Address",cfg.Address)) // Log a message indicating that the server is starting and the address it is listening on
 	//slog.String is used to create a structured log field with a key-value pair eg

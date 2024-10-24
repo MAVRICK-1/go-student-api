@@ -17,9 +17,9 @@ type HTTPServer struct {
 // Config is capitalized so that it can be exported
 type Config struct {
 
-	Env string `yaml:env EVN:"ENV" env-required:"true"`
-	StoragePath string `yaml:storage_path  env-required:"true"`
-	HTTPServer
+	Env string `yaml:"env" env:"ENV" env-required:"true"`
+	StoragePath string `yaml:"storage_path"  env-required:"true"`
+	HTTPServer `yaml:"http_server"`
 }
 
 func MustLoad() *Config {
@@ -66,18 +66,19 @@ func MustLoad() *Config {
 		log.Fatalf("config file not found %s", configPath)
 	}
 
-	var config Config
+	var cfg Config
 
-	err := cleanenv.ReadConfig(configPath, &config) // read the config file and set the value to the config variable //example of cleanenv.ReadConfig("config.yml", &config)
+	err := cleanenv.ReadConfig(configPath, &cfg) // read the config file and set the value to the config variable //example of cleanenv.ReadConfig("config.yml", &config)
 	//out put of the above example
 	//configPath = "config.yml"
 	//config = Config{Env: "production", StoragePath: "/var/lib/storage", HTTPServer: {Address: "localhost:8080"}}
 
 	if err != nil {
+		fmt.Println(cfg)
 		log.Fatalf("failed to read config file %s", err)
 	}
 	
-	return &config
+	return &cfg
 
 	
 	
